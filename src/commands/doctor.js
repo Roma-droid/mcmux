@@ -1,20 +1,28 @@
 import { spawnSync } from 'node:child_process';
 import { findConfig, loadConfig, validateConfig, targetKey } from '../lib/config.js';
 
-function checkCommand(cmd, args) {
+export function checkCommand(cmd, args) {
   const res = spawnSync(cmd, args, { encoding: 'utf8' });
-  if (res.error) return null;
-  return (res.stdout || res.stderr || '').split('\n')[0].trim();
+  if (res.error) {
+    return { ok: false, detail: res.error.code ? `${res.error.code}: ${res.error.message}` : res.error.message };
+  }
+  if (res.status !== 0 && res.status !== null) {
+    const detail = (res.stderr || res.stdout || '').split('\n')[0].trim() || `код выхода ${res.status}`;
+    return { ok: false, detail: `завершилась с ошибкой (${detail})` };
+  }
+  const outputLines = (res.stdout || res.stderr || '').split('\n');
+  const meaningful = outputLines.find((l) => l.trim() && !/^-+$/.test(l.trim()) && !/^picked up/i.test(l.trim()));
+  return { ok: true, detail: (meaningful ?? outputLines.find((l) => l.trim()) ?? '').trim() };
 }
 
 export async function doctorCommand(_args, cwd = process.cwd()) {
   const lines = [];
   let ok = true;
 
-  const javaVersion = checkCommand('java', ['-version']);
-  if (javaVersion) lines.push(`[ok] java найден: ${javaVersion}`);
+  const java = checkCommand('java', ['-version']);
+  if (java.ok) lines.push(`[ok] java найден: ${java.detail}`);
   else {
-    lines.push('[!!] java не найден в PATH -- нужен JDK для сборки любого таргета.');
+    lines.push(`[!!] java не найден или не запускается (${java.detail}) -- нужен JDK для сборки любого таргета.`);
     ok = false;
   }
 
@@ -35,10 +43,12 @@ export async function doctorCommand(_args, cwd = process.cwd()) {
   }
 
   const gradleCmd = config.gradleCommand || 'gradle';
-  const gradleVersion = checkCommand(gradleCmd, ['-v']);
-  if (gradleVersion) lines.push(`[ok] "${gradleCmd}" найден`);
+  const gradle = checkCommand(gradleCmd, ['-v']);
+  if (gradle.ok) lines.push(`[ok] "${gradleCmd}" найден: ${gradle.detail}`);
   else {
-    lines.push(`[!!] команда "${gradleCmd}" не найдена в PATH -- "mcmux build" не сможет запустить сборку (generate всё равно будет работать).`);
+    lines.push(
+      `[!!] "${gradleCmd}" не запустилась (${gradle.detail}) -- "mcmux build" не сможет запустить сборку (generate всё равно будет работать).`
+    );
     ok = false;
   }
 
