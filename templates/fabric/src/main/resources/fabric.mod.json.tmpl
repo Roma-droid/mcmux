@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "{{modId}}",
+  "version": "${version}",
+  "name": "{{modName}}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "{{package}}.fabric.FabricModEntry"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">={{loaderVersion}}",
+    "minecraft": "{{version}}",
+    "java": ">={{javaVersion}}"
+  }
+}

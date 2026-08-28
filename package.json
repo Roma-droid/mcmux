@@ -1,0 +1,17 @@
+{
+  "name": "mcmux",
+  "version": "0.1.0",
+  "description": "CLI tool for writing a Minecraft mod once and building it for multiple loaders (Fabric/Forge/NeoForge/Quilt) and multiple Minecraft versions from a single codebase.",
+  "type": "module",
+  "bin": {
+    "mcmux": "./bin/mcmux.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}

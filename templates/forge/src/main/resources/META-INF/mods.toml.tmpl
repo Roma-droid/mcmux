@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "All rights reserved"
+issueTrackerURL = ""
+
+[[mods]]
+modId = "{{modId}}"
+version = "{{modVersion}}"
+displayName = "{{modName}}"
+description = "{{modName}}"
+
+[[dependencies.{{modId}}]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "[{{loaderVersion}},)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.{{modId}}]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[{{version}},)"
+    ordering = "NONE"
+    side = "BOTH"

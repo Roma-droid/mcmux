@@ -1,0 +1,23 @@
+package {{package}};
+
+import {{package}}.platform.Services;
+
+/**
+ * Platform-agnostic mod logic. Register items/blocks/events here using
+ * plain Java + the {@link Services#PLATFORM} abstraction for anything that
+ * genuinely differs between loaders. Do not import any net.fabricmc.*,
+ * net.minecraftforge.*, or net.neoforged.* class in this module.
+ */
+public final class {{ModClass}} {
+    public static final String MOD_ID = "{{modId}}";
+
+    private {{ModClass}}() {
+    }
+
+    public static void init() {
+        //? if >=1.20 {
+        // Example of version-gated code: only compiled in on 1.20+ builds.
+        //?}
+        System.out.println("[" + MOD_ID + "] {{modName}} initialized on " + Services.PLATFORM.getPlatformName());
+    }
+}

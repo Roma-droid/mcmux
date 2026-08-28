@@ -1,0 +1,11 @@
+package {{package}}.forge;
+
+import net.minecraftforge.fml.common.Mod;
+import {{package}}.{{ModClass}};
+
+@Mod({{ModClass}}.MOD_ID)
+public final class ForgeModEntry {
+    public ForgeModEntry() {
+        {{ModClass}}.init();
+    }
+}

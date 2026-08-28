@@ -1,0 +1,11 @@
+package {{package}}.fabric;
+
+import net.fabricmc.api.ModInitializer;
+import {{package}}.{{ModClass}};
+
+public final class FabricModEntry implements ModInitializer {
+    @Override
+    public void onInitialize() {
+        {{ModClass}}.init();
+    }
+}

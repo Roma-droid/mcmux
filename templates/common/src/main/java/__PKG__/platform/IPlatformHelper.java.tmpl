@@ -1,0 +1,15 @@
+package {{package}}.platform;
+
+/**
+ * Small seam for the handful of things that genuinely need loader-specific
+ * code (registries, config dirs, environment checks, ...). Implemented once
+ * per loader (see fabric/forge/neoforge modules) and wired up via
+ * {@link java.util.ServiceLoader}.
+ */
+public interface IPlatformHelper {
+    String getPlatformName();
+
+    boolean isModLoaded(String modId);
+
+    boolean isDevelopmentEnvironment();
+}
